@@ -1,0 +1,23 @@
+{
+  "name": "derzan-reviews",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rpp34-sdc-mainframe/derzan-reviews.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rpp34-sdc-mainframe/derzan-reviews/issues"
+  },
+  "homepage": "https://github.com/rpp34-sdc-mainframe/derzan-reviews#readme",
+  "dependencies": {
+    "jest": "^28.1.0"
+  }
+}
