@@ -61,11 +61,18 @@ CREATE TABLE characteristic_reviews (
     REFERENCES reviews(id)
 );
 
+-- Load file path can use with our without LOCAL, but the way it's set up for me
+-- I need to use LOCAL
 LOAD DATA LOCAL INFILE '/Users/derzanchiang/Desktop/sdcdata/product.csv'
+-- Target table
 INTO TABLE product
+-- What the fields are seperated by
 FIELDS TERMINATED BY ','
+-- I think this removes double quotes if they exist
 ENCLOSED BY '"'
+-- State what the lines are terminated by (might be different depending on OS)
 LINES TERMINATED BY '\n'
+-- Ingore first row (it's the fields)
 IGNORE 1 ROWS;
 
 LOAD DATA LOCAL INFILE '/Users/derzanchiang/Desktop/sdcdata/reviews.csv'
