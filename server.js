@@ -1,11 +1,5 @@
-async function main() {
-  const mysql = require("mysql2/promise");
-  const connection = await mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : '123',
-    database : 'ratingsAndReviews'
-  });
+const connection = require('./mysqlConnection.js');
+async function queryStressTest() {
 
   const allExecutionTImes = [];
 
@@ -37,8 +31,8 @@ async function main() {
     let xd = await getReviews(i)
   }
   console.log(allExecutionTImes);
-  console.log('AVERAGE: ', allExecutionTImes.reduce((partialSum, a) => partialSum + a, 0) / allExecutionTImes.length)
-  connection.end();
+  console.log('AVERAGE: ', allExecutionTImes.reduce((partialSum, a) => partialSum + a, 0) / allExecutionTImes.length);
 }
 
-main()
+
+// connection.end();
