@@ -103,4 +103,5 @@ ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
+-- Show execution time of recent queries
 SHOW PROFILES;
