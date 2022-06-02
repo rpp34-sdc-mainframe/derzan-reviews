@@ -1,4 +1,4 @@
-const connection = require('./mysqlConnection.js');
+const db = require('./mysqlConnection.js');
 
 /**
  * Query for all reviews of a product and all the photos for each review
@@ -7,10 +7,10 @@ const connection = require('./mysqlConnection.js');
  */
 async function queryReviewsByProductId(product_id) {
   let timeBefore = Date.now();
-  const [reviews, rFields] = await connection.query(`select * from reviews where reviews.product_id = ${product_id}`);
+  const [reviews, rFields] = await db.query(`select * from reviews where reviews.product_id = ${product_id}`);
 
   for (let review of reviews) {
-    const [photos, pFields] = await connection.query(`select * from reviews_photos where reviews_photos.review_id = ${review.id}`);
+    const [photos, pFields] = await db.query(`select * from reviews_photos where reviews_photos.review_id = ${review.id}`);
   }
   return Date.now() - timeBefore;
 }
