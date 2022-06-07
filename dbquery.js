@@ -13,8 +13,8 @@ async function getReviews(product_id, sort, count=5) {
     product: product_id,
     results : []
   }
-
-  const [reviews, rFields] = await connection.query(`SELECT * FROM reviews WHERE reviews.product_id = ${product_id} LIMIT 10`);
+  const orderColumn = sort === 'newest' ? 'date' : 'helpfulness';
+  const [reviews, rFields] = await connection.query(`SELECT * FROM reviews WHERE reviews.product_id = ${product_id} ORDER BY ${orderColumn} DESC LIMIT 10`);
   obj.count = reviews.length
 
   for (let review of reviews) {
@@ -25,7 +25,7 @@ async function getReviews(product_id, sort, count=5) {
     delete review.product_id;
     review.recommend = Boolean(review.recommend);
     delete review.reported;
-    console.log(review.date, new Date(review.date).toISOString())
+    console.log(review.date, review.helpfulness,new Date(review.date).toISOString())
     review.date = new Date(review.date).toISOString();
     review.photos = photos;
     obj.results.push(review);
