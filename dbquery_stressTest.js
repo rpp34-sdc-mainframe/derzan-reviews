@@ -28,3 +28,4 @@ async function allProductReviewsQueryStressTest() {
   }
   return allExecutionTImes.reduce((partialSum, a) => partialSum + a, 0) / allExecutionTImes.length;
 }
+allProductReviewsQueryStressTest();

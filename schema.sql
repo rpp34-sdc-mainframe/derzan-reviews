@@ -1,4 +1,5 @@
 SET profiling = 1;
+SET GLOBAL local_infile=1;
 DROP DATABASE IF EXISTS ratingsAndReviews;
 CREATE DATABASE ratingsAndReviews;
 
@@ -17,7 +18,7 @@ CREATE TABLE reviews (
   id INT unsigned PRIMARY KEY,
   product_id INT unsigned,
   rating TINYINT,
-  date INT unsigned,
+  date BIGINT unsigned,
   summary VARCHAR(60),
   body VARCHAR(1000),
   recommend BOOLEAN,
@@ -31,35 +32,35 @@ CREATE TABLE reviews (
     REFERENCES product(id)
 );
 
-CREATE TABLE reviews_photos (
-  id INT unsigned PRIMARY KEY,
-  review_id INT unsigned,
-  url VARCHAR(2083),
+-- CREATE TABLE reviews_photos (
+--   id INT unsigned PRIMARY KEY,
+--   review_id INT unsigned,
+--   url VARCHAR(2083),
 
-  FOREIGN KEY (review_id)
-    REFERENCES reviews(id)
-);
+--   FOREIGN KEY (review_id)
+--     REFERENCES reviews(id)
+-- );
 
-CREATE TABLE characteristics (
-  id INT unsigned PRIMARY KEY,
-  product_id INT unsigned,
-  name VARCHAR(100),
+-- CREATE TABLE characteristics (
+--   id INT unsigned PRIMARY KEY,
+--   product_id INT unsigned,
+--   name VARCHAR(100),
 
-  FOREIGN KEY (product_id)
-    REFERENCES product(id)
-);
+--   FOREIGN KEY (product_id)
+--     REFERENCES product(id)
+-- );
 
-CREATE TABLE characteristic_reviews (
-  id INT unsigned PRIMARY KEY,
-  characteristic_id INT unsigned,
-  review_id INT unsigned,
+-- CREATE TABLE characteristic_reviews (
+--   id INT unsigned PRIMARY KEY,
+--   characteristic_id INT unsigned,
+--   review_id INT unsigned,
 
-  FOREIGN KEY (characteristic_id)
-    REFERENCES characteristics(id),
+--   FOREIGN KEY (characteristic_id)
+--     REFERENCES characteristics(id),
 
-  FOREIGN KEY (review_id)
-    REFERENCES reviews(id)
-);
+--   FOREIGN KEY (review_id)
+--     REFERENCES reviews(id)
+-- );
 
 
 -- Load file path can use with our without LOCAL, but the way it's set up for me

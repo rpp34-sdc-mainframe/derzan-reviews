@@ -2,16 +2,19 @@ const connection = require('./mysqlConnection.js');
 
 /**
  * Query for all reviews of a product and all the photos for each review and put them into an object
+ *
+ * @async
+ * @function getReviews
  * @param {number} product_id the product id
  * @returns {object} Returns an object of reviews for a particular product.
  */
-async function getReviews(product_id) {
+async function getReviews(product_id, sort, count=5) {
   let obj = {
     product: product_id,
     results : []
   }
 
-  const [reviews, rFields] = await connection.query(`select * from reviews where reviews.product_id = ${product_id}`);
+  const [reviews, rFields] = await connection.query(`SELECT * FROM reviews WHERE reviews.product_id = ${product_id} LIMIT 10`);
   obj.count = reviews.length
 
   for (let review of reviews) {
@@ -22,12 +25,16 @@ async function getReviews(product_id) {
     delete review.product_id;
     review.recommend = Boolean(review.recommend);
     delete review.reported;
+    console.log(review.date, new Date(review.date).toISOString())
     review.date = new Date(review.date).toISOString();
     review.photos = photos;
     obj.results.push(review);
   }
-  return obj
+  return obj;
 }
-let x = async () => {console.log(await getReviews(5))}
-x();
-
+// let xd = async () => {
+//   let xd = await getReviews(5);
+//   console.log(xd)
+// }
+// xd();
+module.exports = {getReviews}
