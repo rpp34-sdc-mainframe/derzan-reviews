@@ -54,6 +54,7 @@ CREATE TABLE characteristic_reviews (
   id INT unsigned PRIMARY KEY,
   characteristic_id INT unsigned,
   review_id INT unsigned,
+  value TINYINT,
 
   FOREIGN KEY (characteristic_id)
     REFERENCES characteristics(id),
