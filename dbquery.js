@@ -46,12 +46,13 @@ async function getMetadata(product_id) {
     } else {
       ratings[review.rating] = 1;
     }
-    if (review.recommend in recommended) {
-      recommended[review.recommend] ++;
+    if (Boolean(review.recommend) in recommended) {
+      recommended[Boolean(review.recommend)] ++;
     } else {
-      recommended[review.recommend] = 1;
+      recommended[Boolean(review.recommend)] = 1;
     }
   }
+
   metaData.ratings = ratings;
   metaData.recommended = recommended;
 
@@ -74,11 +75,14 @@ async function getMetadata(product_id) {
   }
   metaData.characteristics = tempCharacteristics;
   return metaData;
+};
+
+async function markHelpful(review_id) {
+  const xd = await connection.query(`UPDATE reviews SET helpfulness = helpfulness + 1 WHERE id = ${review_id}`);
 }
 
-// let xd = async () => {
-//   let xd = await getReviews(5);
-//   console.log(xd)
-// }
-// xd();
-module.exports = {getReviews, getMetadata}
+async function report(review_id) {
+  const xd = await connection.query(`UPDATE reviews SET reported = 1 WHERE id = ${review_id}`);
+}
+
+module.exports = {getReviews, getMetadata, markHelpful, report}
