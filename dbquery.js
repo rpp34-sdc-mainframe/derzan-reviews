@@ -85,4 +85,48 @@ async function report(review_id) {
   const xd = await connection.query(`UPDATE reviews SET reported = 1 WHERE id = ${review_id}`);
 }
 
-module.exports = {getReviews, getMetadata, markHelpful, report}
+async function addReview(product_id, rating, summary, body, recommend, name, email, photos, characteristics) {
+  recommend = recommend === true || recommend === 'true' ? 1 : 0;
+  let [latest, column] = await connection.query('select id from reviews order by id desc limit 1');
+  latest = latest[0].id
+  latest ++;
+  summary = summary.length === 0 ? 'null' : summary;
+  console.log('body: ', body)
+  const queryString = `
+    INSERT INTO reviews (id, product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness)
+    VALUES (${latest}, ${product_id}, ${rating}, ${Date.now()}, '${summary}', '${body}', ${recommend}, 0, '${name}', '${email}', 'null', 0)
+  `;
+  try {
+    const xd = await connection.query(queryString);
+  } catch(e) {
+    console.log(e)
+  }
+  let [latestPhotos, columnph] = await connection.query('select id from reviews_photos order by id desc limit 1');
+  let photoArray = []
+  latestPhotos = latestPhotos[0].id
+  for (let i = 0; i < photos.length; i++) {
+    let newid = latestPhotos + 1 + i
+    photoArray.push(`(${newid}, ${latest}, "${photos[i]}")`)
+  }
+  photoArray = photoArray.join(',');
+  try {
+    const hehe = await connection.query(`INSERT INTO reviews_photos (id, review_id, url) VALUES ${photoArray}`);
+  } catch(e) {
+    console.log(e)
+  }
+  let [latestChar, columnCh] = await connection.query('select id from characteristic_reviews order by id desc limit 1');
+  latestChar = latestChar[0].id;
+  let charArray = []
+  let count = 1
+  for (let [key, value] of Object.entries(characteristics)) {
+    charArray.push(`(${latestChar + count}, ${key}, ${latest}, ${value})`)
+  }
+  charArray = charArray.join(',');
+  try {
+    const ayo = await connection.query(`INSERT INTO characteristic_reviews (id,characteristic_id,review_id,value) VALUES ${charArray}`);
+  } catch(e) {
+    console.log(e)
+  }
+}
+
+module.exports = { getReviews, getMetadata, markHelpful, report, addReview }

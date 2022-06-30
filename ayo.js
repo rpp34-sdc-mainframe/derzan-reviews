@@ -1,23 +1,20 @@
-var mysql      = require('mysql');
-var connection = mysql.createConnection({
-  host     : 'localhost',
+const mysql = require("mysql2/promise");
+const pool = mysql.createPool({
+  host     : '35.89.102.74',
   user     : 'root',
   password : '123',
   database : 'ratingsAndReviews',
-  socketPath : '/tmp/mysql.sock',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
-connection.connect(function(err){
-  if(!err) {
-      console.log("Database is connected ... nn");
-  } else {
-      console.log(err);
-  };
-})
 
-connection.query('select * from reviews where reviews.product_id = 6', function (error, results, fields) {
-  if (error) throw error;
-  console.log('The solution is: ', fields);
-});
 
-connection.end();
+pool.query(`select * from reviews where reviews.product_id = ${5}`).then(
+  (x, y, z) => {
+    console.log(x)
+    console.log(y)
+    console.log(z);
+  }
+)

@@ -1,8 +1,7 @@
 
 const mysql = require("mysql2/promise");
 const pool = mysql.createPool({
-  socketPath : '/tmp/mysql.sock',
-  host     : 'localhost',
+  host     : '35.89.102.74',
   user     : 'root',
   password : '123',
   database : 'ratingsAndReviews',
