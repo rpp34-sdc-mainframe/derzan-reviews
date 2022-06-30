@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors')
 const db = require('./dbquery.js');
 const app = express();
+const path = require('path');
 
 app.use(cors());
 app.use(express.json());
@@ -58,6 +59,10 @@ app.post('/reviews', async (req, res) => {
   } catch(e) {
     res.sendStatus(500);
   }
+})
+
+app.get('/loaderio-8205e2362d61ba83640cba3183ab8f13', (req, res) => {
+  res.sendFile('loader.txt', {root: path.join(__dirname)})
 })
 
 module.exports = app;
