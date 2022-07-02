@@ -52,7 +52,7 @@ app.put('/reviews/:review_id/report', async (req, res) => {
 
 app.post('/reviews', async (req, res) => {
   const {product_id, rating, summary, body, recommend, name, email, photos, characteristics} = req.body;
-  console.log(product_id, rating, summary, body, recommend, name, email, photos, characteristics)
+  // console.log(product_id, rating, summary, body, recommend, name, email, photos, characteristics)
   try {
     let xd = await db.addReview(product_id, rating, summary, body, recommend, name, email, photos, characteristics);
     res.sendStatus(200)
